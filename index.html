@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <style>
+            html, body {
+                height: 100%;
+            }
+
+            html {
+                display: table;
+                margin: auto;
+            }
+
+            body {
+                display: table-cell;
+                vertical-align: middle;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1>Welcome to Joe's Hotdog Stand!</h1>
+        <br>
+        <h2> What would you like to order?</h2>
+        <table>
+            <tr>
+                <th>Food</th>
+                <th>Prices</th>
+            </tr>
+            <tr>
+                <th>Hotdogs</th>
+                <th>&dollar; 4.65</th>
+            </tr>
+            <tr>
+                <th>French Fries</th>
+                <th>&dollar; 3.75</th>
+            </tr>
+            <tr>
+                <th>Drinks</th>
+                <th>&dollar; 1.89</th>
+            </tr>
+        </table>
+
+        <h2> Receipt </h2>
+        <table>
+            <tr>
+                <th>Food</th>
+                <th>Quantity</th>
+                <th>Prices</th>
+            </tr>
+            <tr>
+                <th>Hotdogs</th>
+                <th id = "NumberDogs"></th>
+                <th id ="HotDog"></th>
+            </tr>
+            <tr>
+                <th>French Fries</th>
+                <th id = "NumberFries"></th>
+                <th id = "FrenchFry"></th>
+            </tr>
+            <tr>
+                <th>Drinks</th>
+                <th id = "NumberSoda"></th>
+                <th id = "SodaPop"></th>
+            </tr>
+            <tr>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr>
+                <th>Subtotal</th>
+                <th> &nbsp; </th>
+                <th id = "amount"></th>
+            </tr>
+            <tr>
+                <th>Discount (10%)</th>
+                <th> &nbsp; </th>
+                <th id ="disCount"></th>
+            </tr>
+            <tr>
+                <th>Subtotal after Discount</th>
+                <th> &nbsp; </th>
+                <th id = "afterDiscount"></th>
+            </tr>
+            <tr>
+                <th>Tax (6.25%)</th>
+                <th> &nbsp; </th>
+                <th id = "taxAmount"></th>
+            </tr>
+            <tr>
+                <th>Total</th>
+                <th> &nbsp; </th>
+                <th id = "finalTotal"></th>
+            </tr>
+        </table>
+        <script>
+            const hotdog = 4.65;
+            const fries = 3.75;
+            const drink = 1.89;
+
+
+            let numDogs = prompt("How many hotdogs would you like?");
+            let numFries = prompt("How many french fries would you like?");
+            let numSoda = prompt("How many sodas would you like?");
+
+            function discount(n) {
+                percent = 0;
+                if (n >= 25 ){
+                    percent = (n * 10)/100;
+                }
+                return percent;
+            }
+
+            function massTax(n) {
+                tax = 0;
+                tax = (n * 6.25)/100;
+                return tax;
+            }
+
+            function showMoney(n) {
+                let round = Number(Math.round(n + 'e' + 2) + 'e-' + 2);
+                let roundString = round.toString();
+                let length = roundString.length;
+                let period = ".";
+                let indexPeriod = roundString.indexOf(period);
+                if(length == indexPeriod + 2) {
+                    let zero = "0";
+                    let actualRound = roundString.concat(zero);
+                    return actualRound;
+                }
+                return round;
+            }
+
+
+            let dogTotal = showMoney(numDogs * hotdog);
+            let fryTotal = showMoney(numFries * fries);
+            let drinkTotal = showMoney(numSoda * drink);
+            let subTotal = dogTotal + fryTotal + drinkTotal;
+            let subBefore = showMoney(subTotal);
+            let numDis = showMoney(discount(subBefore));
+            let subAfter = subBefore - numDis;
+            let taxTotal = showMoney(massTax(subAfter));
+            let final = subAfter + taxTotal;
+
+            document.getElementById("NumberDogs").innerHTML = numDogs;
+            document.getElementById("HotDog").innerHTML = "&dollar;" + dogTotal;
+            document.getElementById("NumberFries").innerHTML = numFries;
+            document.getElementById("FrenchFry").innerHTML = "&dollar;" + fryTotal;
+            document.getElementById("NumberSoda").innerHTML = numSoda;
+            document.getElementById("SodaPop").innerHTML = "&dollar;" + drinkTotal;
+            document.getElementById("amount").innerHTML = "&dollar;" + subBefore;
+            document.getElementById("disCount").innerHTML = "&dollar;" + numDis;
+            document.getElementById("afterDiscount").innerHTML = "&dollar;" + showMoney(subAfter);
+            document.getElementById("taxAmount").innerHTML = "&dollar;" + taxTotal;
+            document.getElementById("finalTotal").innerHTML = "&dollar;" + showMoney(final);
+        </script>
+    </body>
+</html>
