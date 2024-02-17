@@ -118,14 +118,22 @@
             }
 
             function showMoney(n) {
+                if(n == 0) {
+                    return zeroString = "0.00";
+                }
                 let round = Number(Math.round(n + 'e' + 2) + 'e-' + 2);
                 let roundString = round.toString();
                 let length = roundString.length;
+                let zero = "0";
                 let period = ".";
                 let indexPeriod = roundString.indexOf(period);
+                let periodPresent = roundString.indexOf(".");
                 if(length == indexPeriod + 2) {
-                    let zero = "0";
                     let actualRound = roundString.concat(zero);
+                    return actualRound;
+                }
+                if(periodPresent == -1) {
+                    let actualRound = roundString.concat(period, zero, zero);
                     return actualRound;
                 }
                 return round;
@@ -135,7 +143,7 @@
             let dogTotal = showMoney(numDogs * hotdog);
             let fryTotal = showMoney(numFries * fries);
             let drinkTotal = showMoney(numSoda * drink);
-            let subTotal = dogTotal + fryTotal + drinkTotal;
+            let subTotal = Number(dogTotal) + Number(fryTotal) + Number(drinkTotal);
             let subBefore = showMoney(subTotal);
             let numDis = showMoney(discount(subBefore));
             let subAfter = subBefore - numDis;
