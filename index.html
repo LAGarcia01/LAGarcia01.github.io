@@ -1,166 +1,142 @@
 <html>
     <head>
-        <style>
-            html, body {
-                height: 100%;
+       <style>
+            img {
+                max-width: 100%;
+                max-height: 100%;
             }
 
-            html {
-                display: table;
-                margin: auto;
+            p {
+                text-align: center;
             }
 
-            body {
-                display: table-cell;
-                vertical-align: middle;
+            #image, #image2 {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 200px;
+                width: 200px;
             }
 
-        </style>
+            #main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                width: 600px;
+                height: 1100px;
+                margin-bottom: 100px;
+            }
+
+            h2, h1 {
+                margin-bottom: 0px;
+            }
+       </style>
+
     </head>
     <body>
-        <h1>Welcome to Joe's Hotdog Stand!</h1>
-        <br>
-        <h2> What would you like to order?</h2>
-        <table>
-            <tr>
-                <th>Food</th>
-                <th>Prices</th>
-            </tr>
-            <tr>
-                <th>Hotdogs</th>
-                <th>&dollar; 4.65</th>
-            </tr>
-            <tr>
-                <th>French Fries</th>
-                <th>&dollar; 3.75</th>
-            </tr>
-            <tr>
-                <th>Drinks</th>
-                <th>&dollar; 1.89</th>
-            </tr>
-        </table>
-
-        <h2> Receipt </h2>
-        <table>
-            <tr>
-                <th>Food</th>
-                <th>Quantity</th>
-                <th>Prices</th>
-            </tr>
-            <tr>
-                <th>Hotdogs</th>
-                <th id = "NumberDogs"></th>
-                <th id ="HotDog"></th>
-            </tr>
-            <tr>
-                <th>French Fries</th>
-                <th id = "NumberFries"></th>
-                <th id = "FrenchFry"></th>
-            </tr>
-            <tr>
-                <th>Drinks</th>
-                <th id = "NumberSoda"></th>
-                <th id = "SodaPop"></th>
-            </tr>
-            <tr>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-                <th>&nbsp;</th>
-            </tr>
-            <tr>
-                <th>Subtotal</th>
-                <th> &nbsp; </th>
-                <th id = "amount"></th>
-            </tr>
-            <tr>
-                <th>Discount (10%)</th>
-                <th> &nbsp; </th>
-                <th id ="disCount"></th>
-            </tr>
-            <tr>
-                <th>Subtotal after Discount</th>
-                <th> &nbsp; </th>
-                <th id = "afterDiscount"></th>
-            </tr>
-            <tr>
-                <th>Tax (6.25%)</th>
-                <th> &nbsp; </th>
-                <th id = "taxAmount"></th>
-            </tr>
-            <tr>
-                <th>Total</th>
-                <th> &nbsp; </th>
-                <th id = "finalTotal"></th>
-            </tr>
-        </table>
         <script>
-            const hotdog = 4.65;
-            const fries = 3.75;
-            const drink = 1.89;
 
 
-            let numDogs = prompt("How many hotdogs would you like?");
-            let numFries = prompt("How many french fries would you like?");
-            let numSoda = prompt("How many sodas would you like?");
+            fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/437146')
+                .then(response => response.json())
+                .then (data =>
+                    {
+                        var image = data.primaryImageSmall;
+                        var title = data.title;
+                        var artist = data.artistDisplayName;
+                        var medium = data.medium;
 
-            function discount(n) {
-                percent = 0;
-                if (n >= 25 ){
-                    percent = (n * 10)/100;
-                }
-                return percent;
-            }
+                        var imageDiv = document.getElementById("image");
+                        imageDiv.innerHTML = '<img src="'+ image + '" >';
 
-            function massTax(n) {
-                tax = 0;
-                tax = (n * 6.25)/100;
-                return tax;
-            }
+                        var titleP = document.getElementById("title");
+                        titleP.innerHTML = "Title: " + title;
 
-            function showMoney(n) {
-                if(n == 0) {
-                    return zeroString = "0.00";
-                }
-                let round = Number(Math.round(n + 'e' + 2) + 'e-' + 2);
-                let roundString = round.toString();
-                let length = roundString.length;
-                let zero = "0";
-                let period = ".";
-                let indexPeriod = roundString.indexOf(period);
-                let periodPresent = roundString.indexOf(".");
-                if(length == indexPeriod + 2) {
-                    let actualRound = roundString.concat(zero);
-                    return actualRound;
-                }
-                if(periodPresent == -1) {
-                    let actualRound = roundString.concat(period, zero, zero);
-                    return actualRound;
-                }
-                return round;
-            }
+                        var artistP = document.getElementById("artist");
+                        artistP.innerHTML = "Artist: " + artist;
 
+                        var mediumP = document.getElementById("medium");
+                        mediumP.innerHTML = "Medium: " + medium;
+                    })
+                .catch (error => console.log(error))
 
-            let dogTotal = showMoney(numDogs * hotdog);
-            let fryTotal = showMoney(numFries * fries);
-            let drinkTotal = showMoney(numSoda * drink);
-            let subTotal = Number(dogTotal) + Number(fryTotal) + Number(drinkTotal);
-            let subBefore = showMoney(subTotal);
-            let numDis = showMoney(discount(subBefore));
-            let subAfter = subBefore - numDis;
-            let taxTotal = showMoney(massTax(subAfter));
-            let final = subAfter + taxTotal;
+            fetch('https://collectionapi.metmuseum.org/public/collection/v1/objects/54747')
+                .then(response => response.json())
+                .then (data =>
+                    {
+                        var image = data.primaryImageSmall;
+                        var title = data.title;
+                        var artist = data.artistDisplayName;
+                        var medium = data.medium;
 
-            document.getElementById("NumberDogs").innerHTML = numDogs;
-            document.getElementById("HotDog").innerHTML = "&dollar;" + dogTotal;
-            document.getElementById("NumberFries").innerHTML = numFries;
-            document.getElementById("FrenchFry").innerHTML = "&dollar;" + fryTotal;
-            document.getElementById("NumberSoda").innerHTML = numSoda;
-            document.getElementById("SodaPop").innerHTML = "&dollar;" + drinkTotal;
-            document.getElementById("amount").innerHTML = "&dollar;" + subBefore;
-            document.getElementById("disCount").innerHTML = "&dollar;" + numDis;
-            document.getElementById("afterDiscount").innerHTML = "&dollar;" + showMoney(subAfter);
-            document.getElementById("taxAmount").innerHTML = "&dollar;" + taxTotal;
-            document.getElementById("finalTotal").innerHTML = "&dollar;" + showMoney(final);
+                        var imageDiv = document.getElementById("image2");
+                        imageDiv.innerHTML = '<img src="'+ image + '" >';
+
+                        var titleP = document.getElementById("title2");
+                        titleP.innerHTML = "Title: " + title;
+
+                        var artistP = document.getElementById("artist2");
+                        artistP.innerHTML = "Artist: " + artist;
+
+                        var mediumP = document.getElementById("medium2");
+                        mediumP.innerHTML = "Medium: " + medium;
+                    })
+                .catch (error => console.log(error))
+
         </script>
+        <div id = "main">
+            <p>Paintings from the Met Museum Collection</p>
+            <div id = "image"></div>
+            <div id = "list">
+                <p id = "title"></p>
+                <p id = "artist"></p>
+                <p id = "medium"></p>
+            </div>
+
+            <div id = "image2"></div>
+            <div id = "list">
+                <p id = "title2"></p>
+                <p id = "artist2"></p>
+                <p id = "medium2"></p>
+            </div>
+            <div id = "content">
+                <h1>API: The Metropolitan Museum of Art Collection API</h1>
+                <p>A collection of 470,000 artworks.</p>
+                <p>Holds all information and images pertaining to said artwork; all uploaded information can be used freely.</p><br>
+                <h2>Github that led me to this API</h2>
+                <a href="https://github.com/public-apis/public-apis">Github link</a><br>
+                <h2>Options/Parameters</h2>
+                <p>The two images you see above are two paintings in this massive collection.
+                    Since they had various works, I had to use a query string to get 
+                    access to their paintings exclusively, and had to append a keyword to search for
+                    particular paintings. The queries used below will lead to these two paintings being
+                    associated with dog and cat respectively. To access each painting, I had to input
+                    the object id in this format: https://collectionapi.metmuseum.org/public/collection/v1/objects/[objectID]
+                </p>
+                <h3>Portrait of a Women</h3>
+                <p>Query string with keyword: https://collectionapi.metmuseum.org/public/collection/v1/search?medium=Paintings&q=dog</p>
+                <p>Object ID: https://collectionapi.metmuseum.org/public/collection/v1/objects/437146</p>
+                <h3>Cat Seen from Behind</h3>
+                <p>Query string with keyword: https://collectionapi.metmuseum.org/public/collection/v1/search?medium=Paintings&q=cat</p>
+                <p>Object ID: https://collectionapi.metmuseum.org/public/collection/v1/objects/54747</p>
+    
+                <h2>Applications</h2>
+                <ol style = "text-align: left;">
+                    <li>Can be used to randomly fetch a new artwork of the day to learn about</li>
+                    <li>Useful dataset for AI image generators to train on various artworks.</li>
+                </ol>
+                <h2>Question</h2>
+                <p>The most challenging part was accessing data from the API, especially when I was playing with it, but very satisfying when it worked.</p>
+            </div>
+        </div>
     </body>
 </html>
